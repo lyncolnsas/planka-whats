@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "CommonJS",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "composite": true,
+        "baseUrl": ".",
+        "paths": {
+            "@planka/shared-types": [
+                "packages/shared-types/src/index.ts"
+            ]
+        }
+    }
+}

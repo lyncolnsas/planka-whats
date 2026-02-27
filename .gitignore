@@ -1,0 +1,35 @@
+# Node
+node_modules/
+dist/
+build/
+.pnpm-debug.log
+.npm
+.eslintcache
+
+# Turbo
+.turbo/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+logs*.txt
+error_logs.txt
+planka_logs.txt
+build_output.txt
+lint_output.txt
+logs_ps.txt
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data/Persistence
+data/
+source/
+
+# Docker
+.docker_id

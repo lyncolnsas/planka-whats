@@ -1,0 +1,8 @@
+node_modules
+dist
+.git
+.turbo
+apps/*/node_modules
+apps/*/dist
+packages/*/node_modules
+packages/*/dist

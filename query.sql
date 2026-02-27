@@ -1,0 +1,1 @@
+SELECT u.id AS "userId", COUNT(c.id) AS "totalTasks", SUM(CASE WHEN l.name ILIKE '%Concluído%' THEN 1 ELSE 0 END) AS "completedTasks" FROM user_account u LEFT JOIN card_membership cm ON u.id = cm.user_id LEFT JOIN card c ON cm.card_id = c.id LEFT JOIN list l ON c.list_id = l.id WHERE u.is_deactivated = false GROUP BY u.id;
