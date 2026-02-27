@@ -9,7 +9,7 @@ fi
 
 # ==============================================================================
 # SCRIPT DE INSTALAÇÃO MESTRE: PLANKA + WHATSAPP BRIDGE
-# Foco: Raspberry Pi (DHCP) - Imagem Oficial - Porta 80
+# Foco: Raspberry Pi (DHCP) - Build Local (Custom) - Porta 80
 # Agentes: #2 Engenheiro de Infra & #9 DevOps Fixer
 # ==============================================================================
 

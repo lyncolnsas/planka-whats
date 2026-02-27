@@ -74,6 +74,7 @@ Se você estiver recebendo erros de "Your local changes would be overwritten" ou
 - **Docker**: Instala o Docker e Docker Compose automaticamente.
 - **IP DHCP**: Detecta seu IP e configura o acesso web sozinho.
 - **Swap**: Cria 2GB de memória virtual para o Raspberry Pi não travar.
+- **Build Local**: Constrói o Planka a partir do código-fonte local (incluindo suas modificações).
 
 ### ☢️ `reset_total.sh`
 
