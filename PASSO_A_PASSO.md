@@ -1,0 +1,145 @@
+# 🍎 Passo a Passo Completo: Do Zero à Instalação (Docker, Planka e WhatsApp)
+
+Este guia cobre tudo o que você precisa para rodar o projeto, desde a instalação do Docker até a configuração de usuários e conexão com o WhatsApp.
+
+---
+
+## 1. Instalação do Docker (O Motor)
+
+Se estiver no **Raspberry Pi** ou **Linux (Ubuntu/Debian)**:
+
+1. **Rode o instalador automático:**
+
+    ```bash
+    curl -fsSL https://get.docker.com -o get-docker.sh
+    sudo sh get-docker.sh
+    ```
+
+2. **Permita que seu usuário use o Docker sem `sudo`:**
+
+    ```bash
+    sudo usermod -aG docker $USER
+    ```
+
+    *Importante: Deslogue e logue novamente (ou reinicie) para esta mudança surtir efeito.*
+
+3. **Verifique se está funcionando:**
+
+    ```bash
+    docker --version
+    docker compose version
+    ```
+
+---
+
+## 2. Preparação do Projeto
+
+1. **Clone o repositório:**
+
+    ```bash
+    git clone https://github.com/lyncolnsas/planka-whats.git
+    cd planka-whats
+    ```
+
+2. **Prepare o ambiente (Raspberry Pi):**
+
+    ```bash
+    chmod +x setup.sh
+    ./setup.sh
+    ```
+
+    *Este comando cria as pastas de dados e configura o arquivo de Swap para o build não travar.*
+
+---
+
+## 3. Configuração de Usuários e Senhas (.env)
+
+Crie e edite o arquivo de configurações:
+
+```bash
+cp .env.example .env
+nano .env
+```
+
+### Configurações Importantes
+
+#### A. Acesso ao Banco de Dados
+
+```env
+DB_USER=postgres
+DB_PASSWORD=EscolhaUmaSenhaForte  # Mude isto!
+```
+
+#### B. Acesso ao Planka (Painel Kanban)
+
+```env
+PLANKA_SECRET_KEY=GerarUmaChaveLongaETrabalhada
+BASE_URL=http://IP_DO_SEU_PI:3001
+```
+
+#### C. Integração da Bridge (O Robô)
+
+Aqui você define o usuário que a Bridge usará para criar as tarefas no Planka:
+
+```env
+USER_EMAIL=admin@example.com   # E-mail do seu usuário no Planka
+USER_PASSWORD=SuaSenhaDoPlanka # Senha do seu usuário no Planka
+```
+
+#### D. Whitelist de WhatsApp (Quem pode usar o Bot)
+
+Formato: `NUMERO_WHATSAPP:ID_DO_USUARIO_PLANKA`
+
+```env
+USER_WHITELIST_MAPPING=5511999999999:user_id_aqui
+```
+
+*Para descobrir o seu ID de usuário, você pode olhar no banco de dados ou nos logs da API após o primeiro login.*
+
+---
+
+## 4. Subindo o Sistema
+
+Rode o comando para construir e iniciar todos os serviços:
+
+```bash
+docker compose up --build -d
+```
+
+### O que acontece agora?
+
+- O Docker vai baixar o Postgres.
+- Vai compilar o Planka (pode demorar no Pi).
+- Vai compilar a Bridge API.
+- Tudo estará pronto quando você ver todos os containers com status `running`.
+
+---
+
+## 5. Conectando o WhatsApp
+
+1. **Acesse os logs da Bridge:**
+
+    ```bash
+    docker logs -f planka-bridge
+    ```
+
+2. **Escaneie o QR Code:** Um código QR aparecerá no terminal. Abra seu WhatsApp -> Dispositivos Conectados -> Conectar Aparelho e escaneie.
+3. **Teste o comando:** Envie uma mensagem para o número do robô (usando um número que esteja na Whitelist):
+
+    ```
+    !add Comprar café para o escritório
+    ```
+
+---
+
+## 6. Primeiros Passos no Planka (Interface Web)
+
+1. Acesse `http://IP_DO_SEU_PI:3001` no seu navegador.
+2. Crie sua primeira conta de Administrador.
+3. Crie um **Board (Quadro)** e uma **Lista (Coluna)**.
+4. Pegue o `ID` do Board e da Lista na URL do navegador e atualize seu `.env` para que o robô saiba onde salvar as tarefas:
+    - `BOARD_ID`: O ID que aparece na URL do quadro.
+    - `LIST_ID`: O ID que aparece na URL da lista selecionada.
+
+---
+*Dica: Para atualizar o .env após mudar os IDs, rode `docker compose up -d` novamente.*
