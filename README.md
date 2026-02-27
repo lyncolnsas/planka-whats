@@ -2,50 +2,74 @@
 
 Este projeto transforma seu Raspberry Pi em uma central de produtividade, integrando o **Planka Kanban** com comandos de **WhatsApp**.
 
----
+## 🍎 Guia 1: Primeira Instalação (Do Zero)
 
-## 🛠️ Ferramentas de Manutenção (As Chaves do Reino)
+Siga estes passos se você acabou de formatar o Raspberry Pi ou se ainda não baixou o projeto:
 
-Para garantir que sua instalação funcione sempre de forma limpa, criamos dois scripts mestres:
+1. **Baixe o projeto:**
 
-### 1. 🌟 `install.sh` (Instalação e Atualização)
+   ```bash
+   git clone https://github.com/lyncolnsas/planka-whats.git
+   ```
 
-Use este script para instalar o sistema pela primeira vez ou para atualizar após um reset.
+2. **Entre na pasta:**
 
-- **O que ele faz:** Libera a porta 80, instala Docker, configura IP DHCP automaticamente, gera senhas seguras e sobe os containers.
-- **Como rodar:**
+   ```bash
+   cd planka-whats
+   ```
 
-  ```bash
-  chmod +x install.sh && ./install.sh
-  ```
+3. **Execute o instalador:**
 
-### 2. ☢️ `reset_total.sh` (Limpeza de Fábrica)
-
-Use este script se algo der errado ou se quiser mudar o Raspberry Pi de rede/localidade.
-
-- **O que ele faz:** Apaga TODOS os dados, remove o banco de dados, deleta configurações (`.env`) e limpa o cache do Docker. Deixa a pasta "virgem".
-- **Como rodar:**
-
-  ```bash
-  chmod +x reset_total.sh && ./reset_total.sh
-  ```
+   ```bash
+   chmod +x install.sh && ./install.sh
+   ```
 
 ---
 
-## 🍎 Guia de Instalação Rápida
+## ☢️ Guia 2: Reset Total e Reinstalação
 
-Se você acabou de clonar o repositório ou quer reinstalar do zero:
+Siga estes passos se o sistema já estiver instalado mas você quer **apagar tudo** (inclusive Apache/Nginx) e começar do zero absoluto:
 
-```bash
-# Se a pasta já existir, remova-a antes
-sudo rm -rf planka-whats
+1. **Entre na pasta (se já estiver nela, pule para o passo 3):**
 
-# Clone e Instale
-git clone https://github.com/lyncolnsas/planka-whats.git
-cd planka-whats
-chmod +x install.sh
-./install.sh
-```
+   ```bash
+   cd ~/planka-whats
+   ```
+
+2. **Atualize os scripts de limpeza:**
+
+   ```bash
+   git pull origin main
+   ```
+
+3. **Execute a limpeza nuclear:**
+
+   ```bash
+   chmod +x reset_total.sh && ./reset_total.sh
+   ```
+
+4. **Após a limpeza, instale tudo novo:**
+
+   ```bash
+   ./install.sh
+   ```
+
+---
+
+## 🛠️ O que cada script faz?
+
+### 🌟 `install.sh`
+
+- **Porta 80**: Desativa Apache/Nginx temporariamente para não dar erro.
+- **Docker**: Instala o Docker e Docker Compose automaticamente.
+- **IP DHCP**: Detecta seu IP e configura o acesso web sozinho.
+- **Swap**: Cria 2GB de memória virtual para o Raspberry Pi não travar.
+
+### ☢️ `reset_total.sh`
+
+- **Purge**: Desinstala permanentemente Apache e Nginx para limpar o sistema.
+- **Docker Wipe**: Apaga todos os containers, volumes e imagens.
+- **Data Wipe**: Deleta o banco de dados, o arquivo `.env` e todas as configurações.
 
 ---
 
