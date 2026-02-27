@@ -30,14 +30,14 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plug
 sudo usermod -aG docker $USER
 ```
 
-    *Importante: Deslogue e logue novamente (ou reinicie) para esta mudança surtir efeito.*
+*Importante: Deslogue e logue novamente (ou reinicie) para esta mudança surtir efeito.*
 
-3. **Verifique se está funcionando:**
+1. **Verifique se está funcionando:**
 
-    ```bash
-    docker --version
-    docker compose version
-    ```
+```bash
+docker --version
+docker compose version
+```
 
 ---
 
@@ -45,12 +45,12 @@ sudo usermod -aG docker $USER
 
 1. **Clone o repositório:**
 
-    ```bash
-    git clone https://github.com/lyncolnsas/planka-whats.git
-    cd planka-whats
-    ```
+```bash
+git clone https://github.com/lyncolnsas/planka-whats.git
+cd planka-whats
+```
 
-2. **Prepare o ambiente (Raspberry Pi):**
+1. **Prepare o ambiente (Raspberry Pi):**
 
     ```bash
     chmod +x setup.sh
@@ -61,49 +61,24 @@ sudo usermod -aG docker $USER
 
 ---
 
-## 3. Configuração de Usuários e Senhas (.env)
+### Configurações Automáticas via `setup.sh`
 
-Crie e edite o arquivo de configurações:
+O script de setup agora é inteligente e já faz o seguinte por você:
+
+1. **Detecta seu IP:** Configura o `BASE_URL` automaticamente para o ambiente DHCP.
+2. **Gera Chave Secreta:** Cria uma `PLANKA_SECRET_KEY` única.
+3. **Configura Acessos:** Define o usuário e senha padrão (`admin@example.com` / `password`).
+
+Se você precisar ajustar manualmente:
 
 ```bash
-cp .env.example .env
 nano .env
 ```
 
-### Configurações Importantes
+#### O que você ainda deve conferir
 
-#### A. Acesso ao Banco de Dados
-
-```env
-DB_USER=postgres
-DB_PASSWORD=EscolhaUmaSenhaForte  # Mude isto!
-```
-
-#### B. Acesso ao Planka (Painel Kanban)
-
-```env
-PLANKA_SECRET_KEY=GerarUmaChaveLongaETrabalhada
-BASE_URL=http://IP_DO_SEU_PI:3001
-```
-
-Aqui você define o usuário que a Bridge usará para criar as tarefas no Planka. As credenciais padrão sugeridas são:
-
-```bash
-USER_EMAIL=admin@example.com   # Usuário padrão
-USER_PASSWORD=password         # Senha padrão
-```
-
-> **Atenção:** Você deve criar este mesmo usuário no Planka via navegador antes de começar.
-
-#### D. Whitelist de WhatsApp (Quem pode usar o Bot)
-
-Formato: `NUMERO_WHATSAPP:ID_DO_USUARIO_PLANKA`
-
-```env
-USER_WHITELIST_MAPPING=5511999999999:user_id_aqui
-```
-
-*Para descobrir o seu ID de usuário, você pode olhar no banco de dados ou nos logs da API após o primeiro login.*
+- **Whitelist de WhatsApp:** Adicione seu número em `USER_WHITELIST_MAPPING`.
+- **IDs do Kanban:** Após o primeiro acesso, você deve colocar o `BOARD_ID` e `LIST_ID`.
 
 ---
 
