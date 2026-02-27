@@ -11,14 +11,25 @@ Este projeto integra o gerenciador de tarefas **Planka (Kanban)** com o **WhatsA
 - **`packages/shared-types`**: Tipagem compartilhada para consistência total.
 - **`docker-compose.yml`**: Orquestrador de serviços (Postgres, Planka, Bridge, Backup).
 
+## 🚀 Instalação Limpa / Reinstalação (Recomendado)
+
+Se você recebeu o erro `fatal: destination path 'planka-whats' already exists` ou quer apenas começar do zero absoluto, rode este comando único:
+
+```bash
+sudo rm -rf planka-whats && \
+git clone https://github.com/lyncolnsas/planka-whats.git && \
+cd planka-whats && \
+chmod +x install.sh && \
+./install.sh
+```
+
 ---
 
-## 🍎 Guia de Instalação Rápida (Recomendado)
+## 🍎 Guia de Instalação Passo a Passo
 
-Siga estes passos exatamente no terminal do seu Raspberry Pi:
+Siga estes passos se preferir fazer manualmente no terminal:
 
 1. **Clone o projeto:**
-   *(Se a pasta já existir e você quiser reinstalar do zero, rode `sudo rm -rf planka-whats` primeiro)*
 
    ```bash
    git clone https://github.com/lyncolnsas/planka-whats.git
