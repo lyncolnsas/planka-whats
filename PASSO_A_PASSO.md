@@ -6,20 +6,29 @@ Este guia cobre tudo o que você precisa para rodar o projeto, desde a instalaç
 
 ## 1. Instalação do Docker (O Motor)
 
-Se estiver no **Raspberry Pi** ou **Linux (Ubuntu/Debian)**:
+Se você estiver usando **Raspberry Pi OS (Bookworm)** ou similar, use estes comandos que garantem a instalação correta:
 
-1. **Rode o instalador automático:**
+```bash
+# Remova arquivos de lista antigos que possam causar erro
+sudo rm -f /etc/apt/sources.list.d/docker.list
 
-    ```bash
-    curl -fsSL https://get.docker.com -o get-docker.sh
-    sudo sh get-docker.sh
-    ```
+# Adicione a chave oficial do Docker (se necessário)
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/raspbian/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-2. **Permita que seu usuário use o Docker sem `sudo`:**
+# Configure o repositório forçando a versão "bookworm"
+echo "deb [arch=armhf signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/raspbian bookworm stable" | sudo tee /etc/apt/sources.list.d/docker.list
 
-    ```bash
-    sudo usermod -aG docker $USER
-    ```
+# Atualize e instale o Docker
+sudo apt-get update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# Permita que seu usuário use o Docker sem sudo
+sudo usermod -aG docker $USER
+```
 
     *Importante: Deslogue e logue novamente (ou reinicie) para esta mudança surtir efeito.*
 

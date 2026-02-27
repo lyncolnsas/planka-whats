@@ -19,11 +19,25 @@ Siga este passo a passo para instalar e configurar todo o ecossistema.
 
 ### 1. Instalação do Docker (O Motor)
 
-Se você ainda não tem o Docker instalado no seu **Raspberry Pi** ou **Linux**:
+Se você estiver usando **Raspberry Pi OS (Bookworm)** ou similar:
 
 ```bash
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
+# Remova listas antigas e configure o repositório correto
+sudo rm -f /etc/apt/sources.list.d/docker.list
+
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/raspbian/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+echo "deb [arch=armhf signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/raspbian bookworm stable" | sudo tee /etc/apt/sources.list.d/docker.list
+
+# Instale o pacote completo
+sudo apt-get update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# Permita o uso sem sudo
 sudo usermod -aG docker $USER
 ```
 
