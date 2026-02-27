@@ -15,14 +15,25 @@ Este projeto integra o gerenciador de tarefas **Planka (Kanban)** com o **WhatsA
 
 ## 🍎 Guia de Instalação Rápida (Recomendado)
 
-Para uma instalação totalmente autônoma que configura Docker, Rede, Banco de Dados e IP automaticamente:
+Siga estes passos exatamente no terminal do seu Raspberry Pi:
 
-```bash
-git clone https://github.com/lyncolnsas/planka-whats.git
-cd planka-whats
-chmod +x install.sh
-./install.sh
-```
+1. **Clone o projeto:**
+
+   ```bash
+   git clone https://github.com/lyncolnsas/planka-whats.git
+   ```
+
+2. **Entre na pasta:**
+
+   ```bash
+   cd planka-whats
+   ```
+
+3. **Dê permissão e rode o instalador automático:**
+
+   ```bash
+   chmod +x install.sh && ./install.sh
+   ```
 
 ### O que o `install.sh` faz por você
 
