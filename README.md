@@ -26,32 +26,42 @@ Siga estes passos se você acabou de formatar o Raspberry Pi ou se ainda não ba
 
 ---
 
-## ☢️ Guia 2: Reset Total e Reinstalação
+## ☢️ Guia 2: Reset Total e Reinstalação (Automático)
 
-Siga estes passos se o sistema já estiver instalado mas você quer **apagar tudo** (inclusive Apache/Nginx) e começar do zero absoluto:
+Use este comando se você estiver tendo erros no Git (`Your local changes would be overwritten`), se a porta 80 estiver ocupada, ou se quiser apenas **zerar e reinstalar tudo** de uma vez só:
 
-1. **Entre na pasta (se já estiver nela, pule para o passo 3):**
+```bash
+chmod +x reinstall.sh && ./reinstall.sh
+```
+
+### O que o `reinstall.sh` faz por você
+
+1. **Sincronia Forçada**: Resolve erros de Git e baixa a versão mais nova do GitHub.
+2. **Reset Nuclear**: Desinstala Apache/Nginx e apaga todos os dados antigos.
+3. **Instalação Pura**: Reinstala o Planka e a Bridge do zero absoluto.
+
+## 🆘 Guia 3: Limpeza de Emergência (Se o Git travar)
+
+Se você estiver recebendo erros de "Your local changes would be overwritten" ou o `git pull` não funcionar, siga estes passos para forçar a limpeza:
+
+1. **Baixe apenas o arquivo de limpeza:**
 
    ```bash
-   cd ~/planka-whats
+   wget https://raw.githubusercontent.com/lyncolnsas/planka-whats/main/reset_total.sh
    ```
 
-2. **Atualize os scripts de limpeza:**
+2. **Execute a limpeza (Isso apaga tudo e libera a porta 80):**
 
    ```bash
-   git pull origin main
+   chmod +x reset_total.sh && ./reset_total.sh --yes
    ```
 
-3. **Execute a limpeza nuclear:**
+3. **Apague a pasta antiga e instale do zero:**
 
    ```bash
-   chmod +x reset_total.sh && ./reset_total.sh
-   ```
-
-4. **Após a limpeza, instale tudo novo:**
-
-   ```bash
-   ./install.sh
+   cd .. && sudo rm -rf planka-whats
+   git clone https://github.com/lyncolnsas/planka-whats.git
+   cd planka-whats && ./install.sh
    ```
 
 ---

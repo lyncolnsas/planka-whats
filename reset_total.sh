@@ -2,18 +2,24 @@
 
 # ==============================================================================
 # SCRIPT DE REINICIALIZAÇÃO TOTAL (FACTORY RESET)
-# Objetivo: Limpar TUDO e deixar pronto para uma nova instalação limpa.
+# Objetivo: Limpar TUDO e deixar# Agentes: #2 Engenheiro de Infra & #9 DevOps Fixer
 # ==============================================================================
 
+GREEN='\033[0;32m'
 RED='\033[0;31m'
+YELLOW='\033[1;33m'
 NC='\033[0m'
 
-echo -e "${RED}⚠️  AVISO: Isso irá apagar TODOS os cards, configurações e sessões do WhatsApp!${NC}"
-read -p "Deseja realmente ZERAR o sistema? (s/N): " confirm
+# Suporte a modo não-interativo
+CONFIRM=$1
 
-if [[ $confirm != [sS] ]]; then
-    echo "Operação abortada."
-    exit 1
+if [[ $CONFIRM != "--yes" ]]; then
+    echo -e "${RED}⚠️  ALERTA: Isso irá apagar TODOS os dados do Planka, Banco de Dados e WhatsApp!${NC}"
+    read -p "Tem certeza que deseja continuar? (s/N): " confirm
+    if [[ $confirm != [sS] ]]; then
+        echo "Operação cancelada."
+        exit 1
+    fi
 fi
 
 echo "🧹 Iniciando limpeza nuclear..."
