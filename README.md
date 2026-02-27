@@ -34,6 +34,19 @@ chmod +x install.sh
 
 ---
 
+## ⚠️ Deu algo errado? (Limpeza Radical)
+
+Se a instalação travar ou você quiser começar do zero absoluto, use este comando para limpar todos os containers, volumes e configurações:
+
+```bash
+# Para resetar TUDO (CUIDADO: apaga banco de dados e arquivos)
+sudo docker compose down -v --remove-orphans && sudo rm -rf ./data/* .env
+```
+
+Depois disso, basta rodar o `./install.sh` novamente.
+
+---
+
 ## 📱 Primeiros Passos
 
 ### 1. Acesso Web
