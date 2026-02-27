@@ -18,6 +18,7 @@ Este projeto integra o gerenciador de tarefas **Planka (Kanban)** com o **WhatsA
 Siga estes passos exatamente no terminal do seu Raspberry Pi:
 
 1. **Clone o projeto:**
+   *(Se a pasta já existir e você quiser reinstalar do zero, rode `sudo rm -rf planka-whats` primeiro)*
 
    ```bash
    git clone https://github.com/lyncolnsas/planka-whats.git
