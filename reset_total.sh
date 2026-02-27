@@ -18,6 +18,20 @@ fi
 
 echo "🧹 Iniciando limpeza nuclear..."
 
+# 3. DESINSTALAR BLOQUEADORES (Apache/Nginx que roubam a porta 80)
+echo "🔓 Removendo permanentemente Apache e Nginx para liberar o sistema..."
+sudo systemctl stop apache2 2>/dev/null || true
+sudo systemctl disable apache2 2>/dev/null || true
+sudo apt-get purge -y apache2 apache2-utils apache2-bin apache2.2-common 2>/dev/null || true
+
+sudo systemctl stop nginx 2>/dev/null || true
+sudo systemctl disable nginx 2>/dev/null || true
+sudo apt-get purge -y nginx nginx-common nginx-full 2>/dev/null || true
+
+# Limpa dependências órfãs
+sudo apt-get autoremove -y
+sudo apt-get autoclean
+
 # 1. Parar containers e remover volumes
 if command -v docker &> /dev/null; then
     sudo docker compose down -v --remove-orphans 2>/dev/null || true
