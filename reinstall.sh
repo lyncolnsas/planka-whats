@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Verificação de ROOT (Prevenção de erro de permissão)
+if [[ $EUID -ne 0 ]]; then
+   echo -e "\033[0;31m❌ Este script PRECISA ser rodado como ROOT (use sudo).\033[0m"
+   echo "Exemplo: sudo ./reinstall.sh"
+   exit 1
+fi
+
 # ==============================================================================
 # SCRIPT DE REINSTALAÇÃO TOTAL (ONE-CLICK REINSTALL)
 # Objetivo: Atualizar código, resetar o sistema e instalar tudo de novo.
@@ -24,10 +31,10 @@ chmod +x reset_total.sh
 
 # 3. EXECUTAR LIMPEZA TOTAL (Sem perguntas)
 echo "🧹 Executando Limpeza Nuclear (Purge Apache/Nginx/Docker/Data)..."
-./reset_total.sh --yes
+sudo ./reset_total.sh --yes
 
 # 4. EXECUTAR INSTALAÇÃO MESTRE
 echo "🚀 Iniciando Nova Instalação Autônoma..."
-./install.sh
+sudo ./install.sh
 
 echo -e "${GREEN}✨ PROCESSO CONCLUÍDO COM SUCESSO!${NC}"

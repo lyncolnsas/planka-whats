@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Verificação de ROOT (Prevenção de erro de permissão)
+if [[ $EUID -ne 0 ]]; then
+   echo -e "\033[0;31m❌ Este script PRECISA ser rodado como ROOT (use sudo).\033[0m"
+   echo "Exemplo: sudo ./install.sh"
+   exit 1
+fi
+
 # ==============================================================================
 # SCRIPT DE INSTALAÇÃO MESTRE: PLANKA + WHATSAPP BRIDGE
 # Foco: Raspberry Pi (DHCP) - Imagem Oficial - Porta 80
@@ -17,50 +24,51 @@ echo -e "${GREEN}🚀 Iniciando Instalação Totalmente Autônoma...${NC}"
 
 # 1. LIBERAÇÃO DE PORTA 80 (Prevenção de erro - Agressivo)
 echo "🔓 Liberando porta 80 (Parando serviços e matando bloqueios)..."
-sudo systemctl stop apache2 2>/dev/null || true
-sudo systemctl stop nginx 2>/dev/null || true
+systemctl stop apache2 2>/dev/null || true
+systemctl stop nginx 2>/dev/null || true
 
 # Mata qualquer processo avulso usando a porta 80 (ex: python, node, ou apache órfão)
-PID_PORT_80=$(sudo lsof -t -i:80 || sudo netstat -tunlp | grep :80 | awk '{print $7}' | cut -d'/' -f1 || true)
+PID_PORT_80=$(lsof -t -i:80 || netstat -tunlp | grep :80 | awk '{print $7}' | cut -d'/' -f1 || true)
 if [ ! -z "$PID_PORT_80" ]; then
     echo "⚠️  Forçando encerramento do processo $PID_PORT_80 na porta 80..."
-    sudo kill -9 $PID_PORT_80 || true
+    kill -9 $PID_PORT_80 || true
 fi
 
 # 2. INSTALAÇÃO DE DEPENDÊNCIAS DO SISTEMA
 echo "📦 Atualizando sistema e instalando dependências base..."
-sudo apt-get update
-sudo apt-get install -y curl git build-essential ca-certificates jq
+apt-get update
+apt-get install -y curl git build-essential ca-certificates jq lsof net-tools
 
 # 3. CONFIGURAÇÃO DE SWAP (Vital para o build da Bridge no Pi)
 if [ ! -f /swapfile ] && [ $(free -m | awk '/Mem:/ {print $2}') -lt 4000 ]; then
     echo "⚡ Criando arquivo de Swap de 2GB para evitar travamentos..."
-    sudo fallocate -l 2G /swapfile
-    sudo chmod 600 /swapfile
-    sudo mkswap /swapfile
-    sudo swapon /swapfile
-    echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+    fallocate -l 2G /swapfile
+    chmod 600 /swapfile
+    mkswap /swapfile
+    swapon /swapfile
+    echo '/swapfile none swap sw 0 0' | tee -a /etc/fstab
 fi
 
 # 4. INSTALAÇÃO DO DOCKER
 if ! command -v docker &> /dev/null; then
     echo "🐳 Instalando Docker Engine..."
-    sudo rm -f /etc/apt/sources.list.d/docker.list
-    sudo install -m 0755 -d /etc/apt/keyrings
-    sudo curl -fsSL https://download.docker.com/linux/raspbian/gpg -o /etc/apt/keyrings/docker.asc
-    sudo chmod a+r /etc/apt/keyrings/docker.asc
+    rm -f /etc/apt/sources.list.d/docker.list
+    install -m 0755 -d /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/raspbian/gpg -o /etc/apt/keyrings/docker.asc
+    chmod a+r /etc/apt/keyrings/docker.asc
     echo "deb [arch=armhf signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/raspbian bookworm stable" | \
-        sudo tee /etc/apt/sources.list.d/docker.list
-    sudo apt-get update
-    sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-    sudo usermod -aG docker $USER
+        tee /etc/apt/sources.list.d/docker.list
+    apt-get update
+    apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    # Nota: usermod no usuário atual pode precisar de novo login, mas o script segue como root
 fi
 
 # 5. ESTRUTURA DE DADOS
 echo "📁 Criando diretórios de dados..."
 mkdir -p ./data/postgres ./data/planka ./data/whatsapp-session ./data/backups
 touch ./data/whatsapp-contacts.json
-sudo chown -R $USER:$USER ./data
+# Garante permissões se o script rodou como root
+chmod -R 777 ./data
 
 # 6. GERAÇÃO DO .ENV AUTOMÁTICO
 echo "⚙️  Gerando configurações autônomas..."
@@ -87,9 +95,9 @@ EOT
 
 # 7. START
 echo "🏗️  Subindo serviços..."
-sudo docker compose --env-file .env up --build -d
+docker compose --env-file .env up --build -d
 
 echo -e "${GREEN}✅ INSTALAÇÃO CONCLUÍDA!${NC}"
 echo "🔗 Planka Web: http://${LOCAL_IP}"
 echo "📧 Login: admin@example.com | Senha: password"
-echo "📲 Ver QR Code: sudo docker logs -f planka-bridge"
+echo "📲 Ver QR Code: docker logs -f planka-bridge"
