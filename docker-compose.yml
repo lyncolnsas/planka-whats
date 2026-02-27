@@ -25,7 +25,7 @@ services:
       retries: 5
 
   planka:
-    image: ghcr.io/plankanban/planka:latest
+    image: ghcr.io/plankanban/planka:1.27.1
     container_name: planka-app
     restart: unless-stopped
     logging:
@@ -37,7 +37,7 @@ services:
       postgres:
         condition: service_healthy
     environment:
-      - BASE_URL=${BASE_URL:-http://localhost:3000}
+      - BASE_URL=${BASE_URL:-http://localhost}
       - DATABASE_URL=postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-postgres}@postgres:5432/${DB_NAME:-planka}
       - SECRET_KEY=${PLANKA_SECRET_KEY}
     ports:
@@ -48,6 +48,12 @@ services:
       resources:
         limits:
           memory: 512M
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:1337"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
 
   bridge-api:
     build:

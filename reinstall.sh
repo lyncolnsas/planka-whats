@@ -13,6 +13,8 @@ echo -e "${GREEN}🔄 Iniciando Sincronização e Reinstalação Nuclear...${NC}
 
 # 1. FORÇAR ATUALIZAÇÃO DO CÓDIGO (Resolve conflitos de git pull automaticamente)
 echo "📥 Buscando atualizações do GitHub e limpando sobras locais..."
+# Garante que estamos na pasta correta
+cd "$(dirname "$0")"
 git fetch origin main
 git reset --hard origin/main
 

@@ -15,12 +15,17 @@ NC='\033[0m' # No Color
 
 echo -e "${GREEN}🚀 Iniciando Instalação Totalmente Autônoma...${NC}"
 
-# 1. LIBERAÇÃO DE PORTA 80 (Prevenção de erro)
-echo "🔓 Liberando porta 80 (Parando Apache/Nginx se existirem)..."
+# 1. LIBERAÇÃO DE PORTA 80 (Prevenção de erro - Agressivo)
+echo "🔓 Liberando porta 80 (Parando serviços e matando bloqueios)..."
 sudo systemctl stop apache2 2>/dev/null || true
-sudo systemctl disable apache2 2>/dev/null || true
 sudo systemctl stop nginx 2>/dev/null || true
-sudo systemctl disable nginx 2>/dev/null || true
+
+# Mata qualquer processo avulso usando a porta 80 (ex: python, node, ou apache órfão)
+PID_PORT_80=$(sudo lsof -t -i:80 || sudo netstat -tunlp | grep :80 | awk '{print $7}' | cut -d'/' -f1 || true)
+if [ ! -z "$PID_PORT_80" ]; then
+    echo "⚠️  Forçando encerramento do processo $PID_PORT_80 na porta 80..."
+    sudo kill -9 $PID_PORT_80 || true
+fi
 
 # 2. INSTALAÇÃO DE DEPENDÊNCIAS DO SISTEMA
 echo "📦 Atualizando sistema e instalando dependências base..."

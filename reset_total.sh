@@ -34,6 +34,13 @@ sudo systemctl stop nginx 2>/dev/null || true
 sudo systemctl disable nginx 2>/dev/null || true
 sudo apt-get purge -y nginx nginx-common nginx-full 2>/dev/null || true
 
+# Mata qualquer processo residual na porta 80
+PID_PORT_80=$(sudo lsof -t -i:80 || sudo netstat -tunlp | grep :80 | awk '{print $7}' | cut -d'/' -f1 || true)
+if [ ! -z "$PID_PORT_80" ]; then
+    echo "⚠️  Matando processo residual $PID_PORT_80 na porta 80..."
+    sudo kill -9 $PID_PORT_80 || true
+fi
+
 # Limpa dependências órfãs
 sudo apt-get autoremove -y
 sudo apt-get autoclean
