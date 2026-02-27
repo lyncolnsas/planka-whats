@@ -77,14 +77,14 @@ PLANKA_SECRET_KEY=GerarUmaChaveLongaETrabalhada
 BASE_URL=http://IP_DO_SEU_PI:3001
 ```
 
-#### C. Integração da Bridge (O Robô)
+Aqui você define o usuário que a Bridge usará para criar as tarefas no Planka. As credenciais padrão sugeridas são:
 
-Aqui você define o usuário que a Bridge usará para criar as tarefas no Planka:
-
-```env
-USER_EMAIL=admin@example.com   # E-mail do seu usuário no Planka
-USER_PASSWORD=SuaSenhaDoPlanka # Senha do seu usuário no Planka
+```bash
+USER_EMAIL=admin@example.com   # Usuário padrão
+USER_PASSWORD=password         # Senha padrão
 ```
+
+> **Atenção:** Você deve criar este mesmo usuário no Planka via navegador antes de começar.
 
 #### D. Whitelist de WhatsApp (Quem pode usar o Bot)
 
@@ -126,7 +126,7 @@ docker compose up --build -d
 2. **Escaneie o QR Code:** Um código QR aparecerá no terminal. Abra seu WhatsApp -> Dispositivos Conectados -> Conectar Aparelho e escaneie.
 3. **Teste o comando:** Envie uma mensagem para o número do robô (usando um número que esteja na Whitelist):
 
-    ```
+    ```bash
     !add Comprar café para o escritório
     ```
 

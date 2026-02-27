@@ -54,8 +54,16 @@ nano .env
 - `DB_PASSWORD`: Senha do Banco de Dados.
 - `PLANKA_SECRET_KEY`: Uma chave aleatória longa.
 - `BASE_URL`: O IP do seu servidor (ex: `http://192.168.1.100:3001`).
-- `USER_EMAIL` e `USER_PASSWORD`: As credenciais que você usará para a Bridge criar cards no Planka.
+- `USER_EMAIL`: E-mail de acesso (Padrão: `admin@example.com`).
+- `USER_PASSWORD`: Senha de acesso (Padrão: `password`).
 - `USER_WHITELIST_MAPPING`: Seu número de WhatsApp (ex: `5511999999999:id_do_usuario`).
+
+> 💡 **Usuário e Senha Padrão:** No seu primeiro acesso à interface web do Planka, você precisará criar um usuário. As credenciais sugeridas para o robô (`.env`) são:
+>
+> - **Usuário:** `admin@example.com`
+> - **Senha:** `password`
+>
+> Certifique-se de que o usuário criado no Planka coincida com o que você colocar no `.env`.
 
 ### 4. Inicialização do Sistema
 
