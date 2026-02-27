@@ -39,7 +39,7 @@ chmod +x install.sh
 Se a instalação travar ou você quiser começar do zero absoluto, use este comando para limpar todos os containers, volumes e configurações:
 
 ```bash
-# Para resetar TUDO (CUIDADO: apaga banco de dados e arquivos)
+# RESET TOTAL: Remove containers, volumes, redes, pastas de dados e o arquivo .env
 sudo docker compose down -v --remove-orphans && sudo rm -rf ./data/* .env
 ```
 
