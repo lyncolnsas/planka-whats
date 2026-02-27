@@ -49,6 +49,7 @@ mkdir -p ./data/postgres
 mkdir -p ./data/planka
 mkdir -p ./data/whatsapp-session
 mkdir -p ./data/backups
+touch ./data/whatsapp-contacts.json
 
 # 5. Set Permissions
 echo "Setting permissions..."

@@ -25,9 +25,7 @@ services:
       retries: 5
 
   planka:
-    build:
-      context: ./apps/planka
-      dockerfile: Dockerfile
+    image: ghcr.io/plankanban/planka:latest
     container_name: planka-app
     restart: unless-stopped
     logging:
@@ -70,7 +68,7 @@ services:
       - PLANKA_URL=http://planka:1337
       - BOARD_ID=${BOARD_ID}
       - LIST_ID=${LIST_ID}
-      - USER_EMAIL=${PLANKA_USER}
+      - USER_EMAIL=${USER_EMAIL:-admin}
       - USER_PASSWORD=${USER_PASSWORD}
       - USER_WHITELIST_MAPPING=${USER_WHITELIST_MAPPING}
       # WhatsApp session path — must match volume mount below
@@ -83,7 +81,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 256M
+          memory: 384M
 
   db-backup:
     image: postgres:16-alpine

@@ -41,25 +41,23 @@ docker compose version
 
 ---
 
-## 2. Preparação do Projeto
+## 2. Instalação Automática (Recomendado)
 
-1. **Clone o repositório:**
+Para uma instalação totalmente autônoma que limpa instalações falhas, configura Docker, Rede, Banco de Dados e IP automaticamente:
 
 ```bash
-git clone https://github.com/lyncolnsas/planka-whats.git
-cd planka-whats
+chmod +x install.sh
+./install.sh
 ```
 
-1. **Prepare o ambiente (Raspberry Pi):**
-
-    ```bash
-    chmod +x setup.sh
-    ./setup.sh
-    ```
-
-    *Este comando cria as pastas de dados e configura o arquivo de Swap para o build não travar.*
+*Este script detecta seu IP DHCP, configura o Swap para o Raspberry Pi e sobe todos os serviços sem intervenção manual.*
 
 ---
+
+## 3. Preparação Manual (Caso prefira)
+
+1. **Clone o repositório:**
+... (continua conforme os passos abaixo)
 
 ### Configurações Automáticas via `setup.sh`
 
