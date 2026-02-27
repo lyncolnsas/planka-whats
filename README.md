@@ -1,117 +1,67 @@
-# 🚀 Planka + WhatsApp Bridge (Monorepo)
+# 🚀 Planka + WhatsApp Bridge (Raspberry Pi Edition)
 
-Este projeto integra o gerenciador de tarefas **Planka (Kanban)** com o **WhatsApp**, permitindo criar e gerenciar cards através de comandos de chat. Estruturado como um monorepo utilizando **Turborepo** e **Docker**, otimizado para rodar em **Raspberry Pi** ou VPS.
+Este projeto transforma seu Raspberry Pi em uma central de produtividade, integrando o **Planka Kanban** com comandos de **WhatsApp**.
 
 ---
 
-## 🏗️ Arquitetura do Projeto
+## 🛠️ Ferramentas de Manutenção (As Chaves do Reino)
 
-- **`Planka Core`**: Utiliza a imagem oficial otimizada (`ghcr.io/plankanban/planka`).
-- **`apps/bridge-api`**: Backend em **NestJS** que processa mensagens do WhatsApp.
-- **`packages/shared-types`**: Tipagem compartilhada para consistência total.
-- **`docker-compose.yml`**: Orquestrador de serviços (Postgres, Planka, Bridge, Backup).
+Para garantir que sua instalação funcione sempre de forma limpa, criamos dois scripts mestres:
 
-## 🚀 Instalação Limpa / Reinstalação (Recomendado)
+### 1. 🌟 `install.sh` (Instalação e Atualização)
 
-Se você recebeu o erro `fatal: destination path 'planka-whats' already exists` ou quer apenas começar do zero absoluto, rode este comando único:
+Use este script para instalar o sistema pela primeira vez ou para atualizar após um reset.
+
+- **O que ele faz:** Libera a porta 80, instala Docker, configura IP DHCP automaticamente, gera senhas seguras e sobe os containers.
+- **Como rodar:**
+
+  ```bash
+  chmod +x install.sh && ./install.sh
+  ```
+
+### 2. ☢️ `reset_total.sh` (Limpeza de Fábrica)
+
+Use este script se algo der errado ou se quiser mudar o Raspberry Pi de rede/localidade.
+
+- **O que ele faz:** Apaga TODOS os dados, remove o banco de dados, deleta configurações (`.env`) e limpa o cache do Docker. Deixa a pasta "virgem".
+- **Como rodar:**
+
+  ```bash
+  chmod +x reset_total.sh && ./reset_total.sh
+  ```
+
+---
+
+## 🍎 Guia de Instalação Rápida
+
+Se você acabou de clonar o repositório ou quer reinstalar do zero:
 
 ```bash
-sudo rm -rf planka-whats && \
-git clone https://github.com/lyncolnsas/planka-whats.git && \
-cd planka-whats && \
-chmod +x install.sh && \
+# Se a pasta já existir, remova-a antes
+sudo rm -rf planka-whats
+
+# Clone e Instale
+git clone https://github.com/lyncolnsas/planka-whats.git
+cd planka-whats
+chmod +x install.sh
 ./install.sh
 ```
 
 ---
 
-## 🍎 Guia de Instalação Passo a Passo
+## 📱 Primeiros Passos Pós-Instalação
 
-Siga estes passos se preferir fazer manualmente no terminal:
-
-1. **Clone o projeto:**
-
-   ```bash
-   git clone https://github.com/lyncolnsas/planka-whats.git
-   ```
-
-2. **Entre na pasta:**
+1. **Acesso Web**: Acesse `http://IP_DO_SEU_PI` (Sem porta, direto no IP).
+2. **Login**:
+   - 📧 `admin@example.com`
+   - 🔑 `password`
+3. **WhatsApp**: Escaneie o QR Code rodando:
 
    ```bash
-   cd planka-whats
+   sudo docker logs -f planka-bridge
    ```
 
-3. **Dê permissão e rode o instalador automático:**
-
-   ```bash
-   chmod +x install.sh && ./install.sh
-   ```
-
-### O que o `install.sh` faz por você
-
-1. **Limpeza Total**: Remove qualquer instalação falha anterior.
-2. **Configuração de Sistema**: Instala Docker e configura Swap (vital para o Raspberry Pi).
-3. **IP Automático**: Detecta o IP do roteador (DHCP) e configura o acesso web.
-4. **Segurança**: Gera senhas de banco de dados e chaves secretas únicas.
-5. **Performance**: Usa a imagem oficial do Planka, subindo o sistema em segundos.
+4. **Configuração Final**: Após criar seu Quadro no Planka, pegue os IDs na URL e coloque no seu arquivo `.env`, depois rode `./install.sh` novamente para aplicar.
 
 ---
-
-## ⚠️ Deu algo errado? (Limpeza Radical)
-
-Se a instalação travar ou você quiser começar do zero absoluto, use este comando para limpar **TUDO** (Containers, Volumes, Banco de Dados, Dependências e Configurações):
-
-```bash
-# RESET ULTRA RADICAL (CUIDADO: Apaga TUDO)
-sudo docker compose down -v --remove-orphans && \
-sudo rm -rf ./data/* .env node_modules apps/bridge-api/node_modules apps/bridge-api/dist pnpm-lock.yaml
-```
-
-Depois disso, basta rodar o `./install.sh` novamente para uma instalação 100% virgem.
-
----
-
-## 📱 Primeiros Passos
-
-### 1. Acesso Web
-
-Acesse `http://IP_DO_SEU_PI` no seu navegador (Porta 80 padrão).
-
-- **Usuário Padrão**: `admin@example.com`
-- **Senha Padrão**: `password`
-*(Você deve criar sua conta de administrador no primeiro acesso com esses dados)*
-
-### 2. Conectar WhatsApp
-
-Para ver o QR Code e conectar seu celular:
-
-```bash
-sudo docker logs -f planka-bridge
-```
-
-### 3. Configurar Alvo (IDs)
-
-Após acessar o Planka Web, pegue o `BOARD_ID` e `LIST_ID` na URL do seu quadro e atualize o arquivo `.env`. Depois, reinicie:
-
-```bash
-sudo docker compose up -d
-```
-
----
-
-## 📱 Comandos do WhatsApp
-
-Uma vez conectado, use comandos de um número autorizado:
-
-- `!add Título da Tarefa` - Cria um card no Kanban.
-- `#ajuda` - Lista todos os comandos.
-
----
-
-## 🏁 Guia Avançado
-
-- [Passo a Passo Detalhado de Configuração](./PASSO_A_PASSO.md)
-- [Guia de Performance (Raspberry Pi)](./README_RASPBERRY.md)
-
----
-*Mantido pelo Agente #2: O Engenheiro de Infra.*
+*Mantido pelos Agentes de Sistemas (Arquiteto & Infra).*
