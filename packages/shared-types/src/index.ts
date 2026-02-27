@@ -24,7 +24,7 @@ export interface WhatsAppMessage {
 }
 
 export interface BotCommand {
-    type: 'CREATE_TASK' | 'LIST_TASKS' | 'COMPLETE_TASK' | 'HELP' | 'UNKNOWN' | 'CREATE_BOARD';
+    type: 'CREATE_TASK' | 'LIST_TASKS' | 'COMPLETE_TASK' | 'HELP' | 'UNKNOWN' | 'CREATE_BOARD' | 'SHOW_IP';
     payload: any;
     rawMessage: WhatsAppMessage;
 }

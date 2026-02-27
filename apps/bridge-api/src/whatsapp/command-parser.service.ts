@@ -61,6 +61,12 @@ export class CommandParserService {
                     payload: null,
                     rawMessage: message,
                 };
+            case 'ip':
+                return {
+                    type: 'SHOW_IP',
+                    payload: null,
+                    rawMessage: message,
+                };
             default:
                 return {
                     type: 'UNKNOWN',

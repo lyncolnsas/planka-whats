@@ -464,6 +464,11 @@ export class WhatsAppModule implements OnModuleInit {
             case 'LIST_TASKS':
                 await this.tasksQueue.addPlankaTaskJob(command);
                 break;
+            case 'SHOW_IP': {
+                const baseUrl = this.configService.get<string>('BASE_URL') || 'URL não configurada';
+                await this.whatsappService.sendText(from!, `🌐 *Endereço de Acesso:* \n${baseUrl}`);
+                break;
+            }
         }
     }
 }
