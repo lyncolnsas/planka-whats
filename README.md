@@ -47,14 +47,15 @@ Siga estes passos exatamente no terminal do seu Raspberry Pi:
 
 ## ⚠️ Deu algo errado? (Limpeza Radical)
 
-Se a instalação travar ou você quiser começar do zero absoluto, use este comando para limpar todos os containers, volumes e configurações:
+Se a instalação travar ou você quiser começar do zero absoluto, use este comando para limpar **TUDO** (Containers, Volumes, Banco de Dados, Dependências e Configurações):
 
 ```bash
-# RESET TOTAL: Remove containers, volumes, redes, pastas de dados e o arquivo .env
-sudo docker compose down -v --remove-orphans && sudo rm -rf ./data/* .env
+# RESET ULTRA RADICAL (CUIDADO: Apaga TUDO)
+sudo docker compose down -v --remove-orphans && \
+sudo rm -rf ./data/* .env node_modules apps/bridge-api/node_modules apps/bridge-api/dist pnpm-lock.yaml
 ```
 
-Depois disso, basta rodar o `./install.sh` novamente.
+Depois disso, basta rodar o `./install.sh` novamente para uma instalação 100% virgem.
 
 ---
 
