@@ -1,0 +1,120 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .editButton {
+    background: transparent;
+    box-shadow: none;
+    color: #fff;
+    font-size: 15px;
+    line-height: 34px;
+    margin-left: 8px;
+    opacity: 0;
+    padding: 0;
+    width: 34px;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.16);
+    }
+  }
+
+  .item {
+    cursor: auto;
+    -webkit-user-select: auto;
+    user-select: auto;
+
+    &:before {
+      background: none;
+    }
+
+    &:active,
+    &:hover {
+      background: transparent;
+      color: rgba(255, 255, 255, 0.9);
+
+      .editButton {
+        opacity: 1;
+      }
+    }
+  }
+
+  .itemHoverable:hover {
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.24);
+    border-radius: 4px;
+  }
+
+  .itemIconEnabled {
+    color: #bdff22;
+  }
+
+  .logo {
+    align-items: center;
+    color: #fff;
+    display: flex !important;
+    flex: 0 0 auto;
+    padding: 0 10px;
+    text-decoration: none;
+
+    &:before {
+      background: none;
+    }
+
+    img {
+      height: 28px;
+      width: auto;
+      object-fit: contain;
+    }
+  }
+
+  .menu {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    color: #fff;
+    flex: 1 1 auto;
+    height: 50px;
+    margin: 0;
+    width: 100%;
+  }
+
+  .notification {
+    background: #eb5a46;
+    border-radius: 8px;
+    color: #fff;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+    height: 16px;
+    left: 22px;
+    line-height: 16px;
+    min-width: 16px;
+    position: absolute;
+    text-align: center;
+    top: 8px;
+  }
+
+  .title {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+
+  .userName {
+    margin-right: 10px;
+
+    @media only screen and (width < 768px) {
+      display: none;
+    }
+  }
+
+  .wrapper {
+    background: #026aa7;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.30);
+    display: flex;
+    flex: 0 0 auto;
+  }
+}

@@ -1,0 +1,13 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+@import './StoryContent.module.scss';
+
+:global(#app) {
+    .noteIcon {
+        margin-right: 6px;
+        color: #f2d600; // A yellowish color for the note icon
+    }
+}
