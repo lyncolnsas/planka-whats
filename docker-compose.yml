@@ -41,7 +41,7 @@ services:
       - DATABASE_URL=postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-postgres}@postgres:5432/${DB_NAME:-planka}
       - SECRET_KEY=${PLANKA_SECRET_KEY}
     ports:
-      - "3001:1337"
+      - "80:1337"
     volumes:
       - ./data/planka:/app/public/user-data
     deploy:

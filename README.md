@@ -75,7 +75,7 @@ Depois disso, basta rodar o `./install.sh` novamente para uma instalação 100% 
 
 ### 1. Acesso Web
 
-Acesse `http://IP_DO_SEU_PI:3001` no seu navegador.
+Acesse `http://IP_DO_SEU_PI` no seu navegador (Porta 80 padrão).
 
 - **Usuário Padrão**: `admin@example.com`
 - **Senha Padrão**: `password`
